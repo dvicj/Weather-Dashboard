@@ -47,34 +47,54 @@ var getcityRepos = function(name) {
 };
 
 //will accept both the array of the repo data(repos) and the term we searched(searchTerm) for as parameters - 6.2.5
-var displayRepos = function(name, searchTerm) {
-    console.log(name);
+var displayRepos = function(weather, searchTerm) {
+    console.log (weather); 
     console.log("This is the city's cityname: " + searchTerm);
     //clear old city inputted content before displaying new content 6.2.5
     repoContainerEl.textContent = ""; //clears text from repoContainerEl 6.2.5
-    repoSearchTerm.textContent = searchTerm; //ensures the page displays the cityname/search term  
-    for (var i=0; i<name.length; i++) {
-        //format repo name 6.2.5 
+    repoSearchTerm.textContent = searchTerm; //ensures the page displays the cityname/search term   
         //taking each repository "repos[i]"" and writing some of it's data to the page (owner and login and name)
-        var weatherStats = weather.main + "/" + weather.icon + "/" + main.temp + "/" + main.humidity 
-        console.log("blah blah" + name);
+        var currentTemp = "Current temperature: " + weather.main.temp; 
+        var feelsLike = "Feels like: " + weather.main.feels_like; 
+        var description = "Current conditions" + weather.weather.description;
+        var humidity = "Humidity : " + weather.main.humidity; 
+        var sunriseSunset = "Sunrise: " + weather.sys.sunrise + ". Sunset: " + weather.sys.sunset;
+        var wind = "Wind speed: " + weather.wind.speed; 
+
         //create a conatiner for each repo 6.2.5
         var repoEl = document.createElement("div"); //create a new div element called repoEl 6.2.5
         repoEl.classList = "list-item flex-row justify-space-between align-center"; //apply classes to repoEl <div> 6.2.5
         //create a span element to hold repository name 6.2.5
-        var titleEl = document.createElement("span"); //create a new span element called titleEl 6.2.5 
-        titleEl.textContent = weatherStats; // add repoName to titleEl - to hold formatted repository name 
+        var currentTempEl = document.createElement("p"); //create a new span element called titleEl 6.2.5 
+        currentTempEl.classList = "flex-row align-center";
+        currentTempEl.textContent = currentTemp; // add repoName to titleEl - to hold current temp
         //append to container 6.2.5
-        repoEl.appendChild(titleEl); //append title to container 6.2.5 - add span to div 
+        repoEl.appendChild(currentTempEl); //append title to container 6.2.5 - add span to div 
         //create status element 
-        var statusEl = document.createElement("span"); //create a new span element called statusEL 6.2.5 
-        statusEl.classList = "flex-row align-center"; //apply classes to statusEl <span> - 6.2.5 
+        var feelsLikeEl = document.createElement ("span"); 
+        feelsLikeEl.classList = "flex-row align-center";
+        feelsLikeEl.textContent = feelsLike; 
         //append to container 6.2.5
-        repoEl.appendChild(statusEl); 
+        repoEl.appendChild(feelsLikeEl); 
+        //create status element 
+        var descriptionEl = document.createElement("span");
+        descriptionEl.textContent = description; 
+        repoEl.appendChild(descriptionEl);
+        //create status element 
+        var humidityEl = document.createElement("span");
+        humidityEl.textContent = humidity; 
+        repoEl.appendChild(humidityEl); 
+        //create status element 
+        var sunriseSunsetEl = document.createElement("span");
+        sunriseSunsetEl.textContent = sunriseSunset; 
+        repoEl.appendChild(sunriseSunsetEl);
+        //create status element 
+        var windEl = document.createElement("span"); 
+        windEl.textContent = wind; 
+        repoEl.appendChild(windEl); 
         
         //append container to the dom 6.2.5
         repoContainerEl.appendChild(repoEl); //append repo to dom 6.2.5 - add div to container 
-    }
 }; 
 //add event listener - when submit button is clicked, formSubmitHandler function will execute 6.2.4
 cityFormEl.addEventListener("submit", formSubmitHandler);

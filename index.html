@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <!-- google fonts -->
+  <link href="https://fonts.googleapis.com/css?family=IBM+Plex+Sans:400,400i,700&display=swap" rel="stylesheet">
+  <!-- font awesome/ icons -->
+  <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300&display=swap" rel="stylesheet">
+  <!-- bootstrap -->
+  <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"> -->
+  <link rel="stylesheet" href="./assets/css/style.css" />
+  <title>Devin's Weather Dashboard</title>
+
+</head>
+
+<body class="flex-column min-100-vh">
+  <header class="hero">
+    <h1 class="app-title">Weather Dashboard</h1>
+  </header>
+
+
+  <main class="flex-row justify-space-between">
+    <!-- responsive layout for the content to be placed in to -->
+    <div class="col-12 col-md-4">
+      <div class="card">
+        <h3 class="card-header">Search for a City:</h3>
+        <form id="city-form" class="card-body">
+          <input name="cityname" id="cityname" type="text" autofocus="true" class="form-input" />
+          <button type="submit" class="btn">Search...</button> <!--style with icon -->
+        </form>
+      </div>
+    </div>
+    <!--updated 6.2.5 
+      <span> element to write the search term to 
+      empty <div> element to write all of the repository data to -->
+    <div class="col-12 col-md-8">
+      <h2 class="subtitle">Showing Weather Data for: <span id="repo-search-term"><!-- container for user name --></span></h2>
+      <div id="repos-container" class="list-group"></div>
+    </div>
+  </main>
+<script src="./assets/js/script.js"></script>
+</body>
+
+</html>
