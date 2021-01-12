@@ -32,6 +32,10 @@
     color: var(--dark);
     line-height: 1.25;
   }
+
+  h2.subtitle {
+    font-size: 50px; 
+  }
   
   main {
     margin: 20px auto;
@@ -93,24 +97,32 @@
   }
   
   .hero {
-    padding: 3% 4%;
     background-color: var(--dark);
     color: var(--primary);
-  }
-  
-  .hero p {
-    max-width: 75%;
+    display: flex; 
+    justify-content: space-around;
   }
   
   .app-title {
-    font-size: 3rem;
+    font-size: 100px; 
     background-color: var(--primary);
     color: var(--dark);
     padding: 0 10px;
-    display: inline-block;
     border-radius: var(--border-radius);
     box-shadow: 6px 5px var(--light-dark);
+    align-self:center; 
   }
+
+  .icon {
+    font-size: 100px; 
+    background-color: var(--primary);
+    color: var(--dark);
+    padding: 0 10px;
+    border-radius: var(--border-radius);
+    box-shadow: 6px 5px var(--light-dark);
+    align-self:center; 
+  }
+  
   
   .list-group {
     padding: 0;
@@ -200,6 +212,7 @@
     font-size: 1.2rem;
     border: 2px solid var(--light-dark);
     border-radius: var(--border-radius);
+    align-self: center;
   }
   
   /* HEIGHT / WIDTH UTILS */

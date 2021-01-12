@@ -52,15 +52,18 @@ var displayRepos = function(weather, searchTerm) {
     console.log("This is the city's cityname: " + searchTerm);
     //clear old city inputted content before displaying new content 6.2.5
     repoContainerEl.textContent = ""; //clears text from repoContainerEl 6.2.5
-    repoSearchTerm.textContent = searchTerm; //ensures the page displays the cityname/search term  
+    //show current date 
+    var currentDate = moment().format("LL");
+    //current weather icon 
+
+    repoSearchTerm.textContent = searchTerm + ". Date: " + currentDate; //ensures the page displays the cityname/search term 
         //taking each repository "repos[i]"" and writing some of it's data to the page (owner and login and name)
         var currentTemp = "Current temperature: " + weather.main.temp + " &deg C"; 
         var feelsLike = "Feels like: " + weather.main.feels_like + " &deg C"; 
         var humidity = "Humidity : " + weather.main.humidity + "%";  
-        var sunrise = "Sunrise: " + moment(weather.sys.sunrise).format("HH:mm") + " AM";  
-        var sunset = "Sunset: " + moment(weather.sys.sunset).format("HH:mm") + " PM"; 
+        var sunrise = "Sunrise: " + moment(weather.sys.sunrise).format("h:mm");   
+        var sunset = "Sunset: " + moment(weather.sys.sunset).format("h:mm"); 
         var wind = "Wind speed: " + weather.wind.speed + " m/sec";
-
         //create a conatiner for each repo 6.2.5
         var repoEl = document.createElement("div"); //create a new div element called repoEl 6.2.5
             repoEl.classList = "weather-container"; 
@@ -117,6 +120,15 @@ var displayRepos = function(weather, searchTerm) {
             windEl.innerHTML = "<i class='fas fa-wind'></i> " + wind; 
             windDiv.appendChild(windEl);
             repoEl.appendChild(windDiv); 
+
+            //create a span element to hold weatherPic
+            // var picDiv = document.createElement("div"); 
+            // picDiv.classList = "weather-div";
+            // var picEl = document.createElement("span"); 
+            // picEl.classList = "weather-info";
+            // picEl.textContent = weatherPic; 
+            // picDiv.appendChild(picEl);
+            // repoEl.append(picDiv);
         
         //append container to the dom 6.2.5
         repoContainerEl.appendChild(repoEl); //append repo to dom 6.2.5 - add div to container 
