@@ -144,6 +144,24 @@
   .icon-success {
     color: rgb(29, 153, 255);
   }
+
+  .weather-container {
+    border-radius: 10px;
+  }
+  .weather-div {
+    background-color: var(--dark);
+    color: var(--primary);
+  }
+  .weather-div:hover {
+    background-color: var(--light-dark);
+    color: var(--dark);
+  }
+  .weather-info {
+    margin: 20px; 
+    font-size: 30px; 
+  }
+
+  
   
   /* CARDS */
   .card {

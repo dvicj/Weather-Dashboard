@@ -28,7 +28,7 @@ var formSubmitHandler = function(event) {
 //OpenWeather replies with JSON data -- use this for weather server API
 var getcityRepos = function(name) {
     //format the github api url - can enter any cityname in "city"
-    var apiURL = "https://api.openweathermap.org/data/2.5/weather?q=" + name + "&appid=d766966c411b7f57a270ea89ff2f7bdc"; 
+    var apiURL = "https://api.openweathermap.org/data/2.5/weather?q=" + name + "&units=metric&appid=d766966c411b7f57a270ea89ff2f7bdc"; 
     //make a request to the URL - 6.2.5 edited - 6.2.6 edited (404 ERROR and network connectivity)
     fetch(apiURL).then(function(response) {
         //request for data was successful 
@@ -52,46 +52,71 @@ var displayRepos = function(weather, searchTerm) {
     console.log("This is the city's cityname: " + searchTerm);
     //clear old city inputted content before displaying new content 6.2.5
     repoContainerEl.textContent = ""; //clears text from repoContainerEl 6.2.5
-    repoSearchTerm.textContent = searchTerm; //ensures the page displays the cityname/search term   
+    repoSearchTerm.textContent = searchTerm; //ensures the page displays the cityname/search term  
         //taking each repository "repos[i]"" and writing some of it's data to the page (owner and login and name)
-        var currentTemp = "Current temperature: " + weather.main.temp; 
-        var feelsLike = "Feels like: " + weather.main.feels_like; 
-        var description = "Current conditions" + weather.weather.description;
-        var humidity = "Humidity : " + weather.main.humidity; 
-        var sunriseSunset = "Sunrise: " + weather.sys.sunrise + ". Sunset: " + weather.sys.sunset;
-        var wind = "Wind speed: " + weather.wind.speed; 
+        var currentTemp = "Current temperature: " + weather.main.temp + " &deg C"; 
+        var feelsLike = "Feels like: " + weather.main.feels_like + " &deg C"; 
+        var humidity = "Humidity : " + weather.main.humidity + "%";  
+        var sunrise = "Sunrise: " + moment(weather.sys.sunrise).format("HH:mm") + " AM";  
+        var sunset = "Sunset: " + moment(weather.sys.sunset).format("HH:mm") + " PM"; 
+        var wind = "Wind speed: " + weather.wind.speed + " m/sec";
 
         //create a conatiner for each repo 6.2.5
         var repoEl = document.createElement("div"); //create a new div element called repoEl 6.2.5
-        repoEl.classList = "list-item flex-row justify-space-between align-center"; //apply classes to repoEl <div> 6.2.5
-        //create a span element to hold repository name 6.2.5
-        var currentTempEl = document.createElement("p"); //create a new span element called titleEl 6.2.5 
-        currentTempEl.classList = "flex-row align-center";
-        currentTempEl.textContent = currentTemp; // add repoName to titleEl - to hold current temp
-        //append to container 6.2.5
-        repoEl.appendChild(currentTempEl); //append title to container 6.2.5 - add span to div 
-        //create status element 
-        var feelsLikeEl = document.createElement ("span"); 
-        feelsLikeEl.classList = "flex-row align-center";
-        feelsLikeEl.textContent = feelsLike; 
-        //append to container 6.2.5
-        repoEl.appendChild(feelsLikeEl); 
-        //create status element 
-        var descriptionEl = document.createElement("span");
-        descriptionEl.textContent = description; 
-        repoEl.appendChild(descriptionEl);
-        //create status element 
-        var humidityEl = document.createElement("span");
-        humidityEl.textContent = humidity; 
-        repoEl.appendChild(humidityEl); 
-        //create status element 
-        var sunriseSunsetEl = document.createElement("span");
-        sunriseSunsetEl.textContent = sunriseSunset; 
-        repoEl.appendChild(sunriseSunsetEl);
-        //create status element 
-        var windEl = document.createElement("span"); 
-        windEl.textContent = wind; 
-        repoEl.appendChild(windEl); 
+            repoEl.classList = "weather-container"; 
+            //create a span element to hold currentTemp 
+            var currentTempDiv = document.createElement("div");
+            currentTempDiv.classList = "weather-div";
+            var currentTempEl = document.createElement("span"); 
+            currentTempEl.classList = "weather-info";
+            currentTempEl.innerHTML = "<i class='fas fa-thermometer-empty'></i> " + currentTemp; 
+            currentTempDiv.appendChild(currentTempEl); 
+            repoEl.appendChild(currentTempDiv); 
+
+            //create a span element to hold feelsLike 
+            var feelsLikeDiv = document.createElement("div"); 
+            feelsLikeDiv.classList = "weather-div";
+            var feelsLikeEl = document.createElement ("span"); 
+            feelsLikeEl.classList = "weather-info";
+            feelsLikeEl.innerHTML = "<i class='far fa-grin-beam-sweat'></i> " + feelsLike; 
+            feelsLikeDiv.appendChild(feelsLikeEl); 
+            repoEl.appendChild(feelsLikeDiv); 
+
+            //create a span element to hold humidity 
+            var humidityDiv = document.createElement("div"); 
+            humidityDiv.classList = "weather-div";
+            var humidityEl = document.createElement("span");
+            humidityEl.classList = "weather-info";
+            humidityEl.innerHTML = "<i class='fas fa-water'></i> " +  humidity; 
+            humidityDiv.appendChild(humidityEl);
+            repoEl.appendChild(humidityDiv); 
+
+            //create a span element to hold sunrise
+            var sunriseDiv = document.createElement("div"); 
+            sunriseDiv.classList = "weather-div";
+            var sunriseEl = document.createElement("span");
+            sunriseEl.classList = "weather-info";
+            sunriseEl.innerHTML =  "<i class='far fa-sun'></i> " + sunrise; 
+            sunriseDiv.appendChild(sunriseEl);
+            repoEl.appendChild(sunriseDiv);
+
+            //create a span element to hold sunset 
+            var sunsetDiv = document.createElement("div"); 
+            sunsetDiv.classList = "weather-div";
+            var sunsetEl = document.createElement("span");
+            sunsetEl.classList = "weather-info";
+            sunsetEl.innerHTML =  "<i class='fas fa-sun'></i> " + sunset; 
+            sunsetDiv.appendChild(sunsetEl);
+            repoEl.appendChild(sunsetDiv);
+
+            //create a span element to hold wind
+            var windDiv = document.createElement("div"); 
+            windDiv.classList = "weather-div";
+            var windEl = document.createElement("span"); 
+            windEl.classList = "weather-info"; 
+            windEl.innerHTML = "<i class='fas fa-wind'></i> " + wind; 
+            windDiv.appendChild(windEl);
+            repoEl.appendChild(windDiv); 
         
         //append container to the dom 6.2.5
         repoContainerEl.appendChild(repoEl); //append repo to dom 6.2.5 - add div to container 
