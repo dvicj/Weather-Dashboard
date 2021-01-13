@@ -35,9 +35,36 @@ var getcityRepos = function(name) {
         if (response.ok) { //"ok" - when the HTTP request status code is something in the 200s - ok = true 404 error - 6.2.6
             response.json().then(function(data) {
                 displayRepos(data,name); //when the response data is converted to JSON, it will be sent from getcityRepos to displayRepos 
+                getCityIndex(data); 
             });
         } else { //ok = false (not in the 200s)
             alert("Error: " + response.statusText); //statusText property - what the issue is 
+        }
+    })
+    .catch(function(error) { //6.2.6 - catch is way of handling nextwork errors - if successful will get returned in the .then() method if request fails it will be sent to .catch() method 
+        //notice this .catch() getting chained onto the end of the .then() method
+        alert("Unable to connect to OpenWeather"); 
+    }); 
+};
+
+//uv index 
+var getCityIndex = function(weather,lat,lon) {
+    var lat = weather.coord.lat; 
+    var lon = weather.coord.lon; 
+    var apiURL = "http://api.openweathermap.org/data/2.5/uvi?lat=" + lat + "&lon=" + lon + "&appid=d766966c411b7f57a270ea89ff2f7bdc";
+    fetch(apiURL).then(function(response) {
+        if (response.ok) {
+            response.json().then(function(data) {
+                var uvDiv = document.createElement("div");
+                uvDiv.classList = "weather-div";
+                var uvEl = document.createElement("span");
+                uvEl.classList = "weather-info"; 
+                uvEl.innerHTML = "UV Index: " + data[0].value; 
+                uvDiv.appendChild(uvEl);
+                repoEl.appenChild(uvDiv);
+            });
+        }else {
+            alert("Error: " + response.statusText);
         }
     })
     .catch(function(error) { //6.2.6 - catch is way of handling nextwork errors - if successful will get returned in the .then() method if request fails it will be sent to .catch() method 
@@ -53,16 +80,15 @@ var displayRepos = function(weather, searchTerm) {
     //clear old city inputted content before displaying new content 6.2.5
     repoContainerEl.textContent = ""; //clears text from repoContainerEl 6.2.5
     //show current date 
-    var currentDate = moment().format("LL");
+    var currentDate = moment().format("(L)");
     //current weather icon 
-
-    repoSearchTerm.textContent = searchTerm + ". Date: " + currentDate; //ensures the page displays the cityname/search term 
+    var currentIcon = weather.weather[0].icon; 
+    var iconUrl = "http://openweathermap.org/img/wn/"+currentIcon +"@2x.png";
+    $(repoSearchTerm).html(searchTerm + ". Date: " + currentDate + "<img src="+iconUrl+">")//ensures the page displays the cityname/search term/date and icon 
         //taking each repository "repos[i]"" and writing some of it's data to the page (owner and login and name)
         var currentTemp = "Current temperature: " + weather.main.temp + " &deg C"; 
         var feelsLike = "Feels like: " + weather.main.feels_like + " &deg C"; 
-        var humidity = "Humidity : " + weather.main.humidity + "%";  
-        var sunrise = "Sunrise: " + moment(weather.sys.sunrise).format("h:mm");   
-        var sunset = "Sunset: " + moment(weather.sys.sunset).format("h:mm"); 
+        var humidity = "Humidity: " + weather.main.humidity + "%";  
         var wind = "Wind speed: " + weather.wind.speed + " m/sec";
         //create a conatiner for each repo 6.2.5
         var repoEl = document.createElement("div"); //create a new div element called repoEl 6.2.5
@@ -94,24 +120,6 @@ var displayRepos = function(weather, searchTerm) {
             humidityDiv.appendChild(humidityEl);
             repoEl.appendChild(humidityDiv); 
 
-            //create a span element to hold sunrise
-            var sunriseDiv = document.createElement("div"); 
-            sunriseDiv.classList = "weather-div";
-            var sunriseEl = document.createElement("span");
-            sunriseEl.classList = "weather-info";
-            sunriseEl.innerHTML =  "<i class='far fa-sun'></i> " + sunrise; 
-            sunriseDiv.appendChild(sunriseEl);
-            repoEl.appendChild(sunriseDiv);
-
-            //create a span element to hold sunset 
-            var sunsetDiv = document.createElement("div"); 
-            sunsetDiv.classList = "weather-div";
-            var sunsetEl = document.createElement("span");
-            sunsetEl.classList = "weather-info";
-            sunsetEl.innerHTML =  "<i class='fas fa-sun'></i> " + sunset; 
-            sunsetDiv.appendChild(sunsetEl);
-            repoEl.appendChild(sunsetDiv);
-
             //create a span element to hold wind
             var windDiv = document.createElement("div"); 
             windDiv.classList = "weather-div";
@@ -136,3 +144,4 @@ var displayRepos = function(weather, searchTerm) {
 //add event listener - when submit button is clicked, formSubmitHandler function will execute 6.2.4
 cityFormEl.addEventListener("submit", formSubmitHandler);
 
+//getCityIndex(); 
