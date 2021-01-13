@@ -9,6 +9,8 @@
   
   * {
     box-sizing: border-box;
+    margin: 0; 
+    padding: 0; 
   }
   
   body {
@@ -34,7 +36,11 @@
   }
 
   h2.subtitle {
-    font-size: 50px; 
+    font-size: 35px; 
+  }
+
+  #repo-search-term {
+    font-size: 45px; 
   }
   
   main {
@@ -121,9 +127,7 @@
     border-radius: var(--border-radius);
     box-shadow: 6px 5px var(--light-dark);
     align-self:center; 
-  }
-  
-  
+  }  
   .list-group {
     padding: 0;
     list-style: none;
@@ -324,6 +328,23 @@
   
   .col-12 {
     flex: 0 0 100%;
+  }
+
+  
+  .green {
+    background-color: green;
+  }
+
+  .yellow {
+    background-color: yellow;
+  }
+
+  .orange {
+    background-color: orange;
+  }
+
+  .red {
+    background-color: red;
   }
   
   /* col-sm */

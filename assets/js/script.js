@@ -62,10 +62,19 @@ var getCityIndex = function(weather,lat,lon) {
                 uvDiv.classList = "weather-div";
                 var uvEl = document.createElement("span");
                 uvEl.classList = "weather-info"; 
-                uvEl.innerHTML = "UV Index: " + data.value; 
+                uvEl.innerHTML = '<i class="fas fa-sun"></i>' + " UV Index: " + data.value; 
                 uvDiv.appendChild(uvEl);
                 repoEl.appendChild(uvDiv);
                 console.log(data);
+                if (data.value >= 0 || data.value >= 1 || data.value >= 2) {
+                    uvDiv.classList = "green";
+                } else if (data.value >= 3 || data.value >= 4 || data.value >= 5){
+                    uvDiv.classList = "yellow";
+                } else if (data.value >= 6 || data.value >= 7){
+                    uvDiv.classList = "orange";
+                } else if (data.value >= 8 || data.value >= 9 || data.value >= 10){
+                    uvDiv.classList = "red";
+                }
             });
         }else {
             alert("Error: " + response.statusText);
@@ -88,7 +97,7 @@ var displayRepos = function(weather, searchTerm) {
     //current weather icon 
     var currentIcon = weather.weather[0].icon; 
     var iconUrl = "http://openweathermap.org/img/wn/"+currentIcon +"@2x.png";
-    $(repoSearchTerm).html(searchTerm + ". Date: " + currentDate + "<img src="+iconUrl+">")//ensures the page displays the cityname/search term/date and icon 
+    $(repoSearchTerm).html(searchTerm + currentDate + "<img src="+iconUrl+">")//ensures the page displays the cityname/search term/date and icon 
         //taking each repository "repos[i]"" and writing some of it's data to the page (owner and login and name)
         var currentTemp = "Current temperature: " + weather.main.temp + " &deg C"; 
         var feelsLike = "Feels like: " + weather.main.feels_like + " &deg C"; 
