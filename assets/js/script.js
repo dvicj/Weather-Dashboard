@@ -7,6 +7,9 @@ var nameInputEl = document.querySelector("#cityname");
 var repoContainerEl = document.querySelector("#repos-container");
 //reference to <span> container with an id of repo-search-term - 6.2.5
 var repoSearchTerm = document.querySelector("#repo-search-term");
+var repoEl = document.createElement("div"); //create a new div element called repoEl 6.2.5
+repoEl.classList = "weather-container";
+
 
 //function that executes upon a form submission browser event 6.2.4
 var formSubmitHandler = function(event) {
@@ -59,9 +62,10 @@ var getCityIndex = function(weather,lat,lon) {
                 uvDiv.classList = "weather-div";
                 var uvEl = document.createElement("span");
                 uvEl.classList = "weather-info"; 
-                uvEl.innerHTML = "UV Index: " + data[0].value; 
+                uvEl.innerHTML = "UV Index: " + data.value; 
                 uvDiv.appendChild(uvEl);
-                repoEl.appenChild(uvDiv);
+                repoEl.appendChild(uvDiv);
+                console.log(data);
             });
         }else {
             alert("Error: " + response.statusText);
@@ -90,9 +94,7 @@ var displayRepos = function(weather, searchTerm) {
         var feelsLike = "Feels like: " + weather.main.feels_like + " &deg C"; 
         var humidity = "Humidity: " + weather.main.humidity + "%";  
         var wind = "Wind speed: " + weather.wind.speed + " m/sec";
-        //create a conatiner for each repo 6.2.5
-        var repoEl = document.createElement("div"); //create a new div element called repoEl 6.2.5
-            repoEl.classList = "weather-container"; 
+        //create a conatiner for each repo 6.2.5 
             //create a span element to hold currentTemp 
             var currentTempDiv = document.createElement("div");
             currentTempDiv.classList = "weather-div";
