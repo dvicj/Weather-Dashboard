@@ -156,35 +156,40 @@ var displayRepos = function(weather, searchTerm) {
         repoContainerEl.appendChild(repoEl); //append repo to dom 6.2.5 - add div to container 
 }; 
 
-var forecast = function(weather, name) {
-    var dayover = false; 
-    var forecastURL = "https://api.openweathermap.org/data/2.5/forecast?q=" + name + "&appid=" + APIKey; 
-    fetch(forecastURL).then(function(response) {
-        //request for data was successful 
-        if (response.ok) { //"ok" - when the HTTP request status code is something in the 200s - ok = true 404 error - 6.2.6
-            response.json().then(function(data) {
-                for (i=0;i<5;i++) {
-                    var date = new Date((response.list[((i+1)*8)-1].dt)*1000).toLocaleDateString(); 
-                    var iconcode = reponse.list[((i+1)*8)-1].weather[0].icon; 
-                    var iconURL = "https://openweathermap.org/img/wn/"+iconcode+".png";
-                    var temp = response.weather.main.temp;
-                    var humidity = reponse.weather.main.humidity;
-                    var forecastDiv = document.createElement("div"); 
-                    forecastDiv.classList = "weather-div"; 
-                    var forecastEl = document.createElement("span");    
-                    forecastEl.classList = "weather-info";
-                    forecastEl.innerHTML = date + iconURL + temp + humidity; 
-                    forecastDiv.appendChild(forecastEl)
-                    repoContainerEl.appendChild(forecastDiv);
+var forecast = function(city) {
+    //get 5 day forecast
+    var forecastURL = "https://api.openweathermap.org/data/2.5/forecast?q=" + city.name + "&appid=" + APIKey; 
+    fetch(forecastURL).then(function(response){
+        if (response.ok) {
+            response.json().then(function(response) {
+                //add container div for forecast cards 
+                var newrow = $("<div>").attr("class", "forecast");
+                $("#weather-container").append(newrow);
+                //loop through array to find the forecasts
+                for (var i=0; i<response.list.length;i++) {
+                    if (response.list[i].dt_txt.indexOf("15:00:00") !== -1) {
+                        var newCol = $("<div>").attr("class", "one-fifth");
+                        newrow.append(newCol);
+
+                        var newCard = $("<div>").attr("class", "card text-white bg-primary");
+                        newCol.append(newCard);
+
+                        var cardHead = $("<div>").attr("class", "card-header").text(moment(response.list[i].dt, "X").format("MMM Do"));
+                        newCard.append(cardHead);
+
+                        var cardImg = $("<img>").attr("class", "card-img-top").attr("src", "https://openweathermap.org/img/wn/" + response.list[i].weather[0].icon + "@2x.png");
+                        newCard.append(cardImg);
+
+                        var bodyDiv = $("<div>").attr("class", "card-body");
+                        newCard.append(bodyDiv);
+
+                        bodyDiv.append($("<p>").attr("class", "card-text").html("Temp: " + response.list[i].main.temp + " &#8457;"));
+                        bodyDiv.append($("<p>").attr("class", "card-text").text("Humidity: " + response.list[i].main.humidity + "%"));                
+                    }
                 }
-            });
-        } else { //ok = false (not in the 200s)
-            alert("Error: " + response.statusText); //statusText property - what the issue is 
+            })
         }
     })
-}
-
+};  
 //add event listener - when submit button is clicked, formSubmitHandler function will execute 6.2.4
 cityFormEl.addEventListener("submit", formSubmitHandler);
-
-//getCityIndex(); 
