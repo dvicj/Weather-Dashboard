@@ -1,3 +1,5 @@
+var APIKey = "d766966c411b7f57a270ea89ff2f7bdc"; 
+
 //card / form element - make form for searching cities 
 //reference to <form> with an id of city-form
 var cityFormEl = document.querySelector("#city-form");
@@ -31,7 +33,7 @@ var formSubmitHandler = function(event) {
 //OpenWeather replies with JSON data -- use this for weather server API
 var getcityRepos = function(name) {
     //format the github api url - can enter any cityname in "city"
-    var apiURL = "https://api.openweathermap.org/data/2.5/weather?q=" + name + "&units=metric&appid=d766966c411b7f57a270ea89ff2f7bdc"; 
+    var apiURL = "https://api.openweathermap.org/data/2.5/weather?q=" + name + "&units=metric&appid=" + APIKey; 
     //make a request to the URL - 6.2.5 edited - 6.2.6 edited (404 ERROR and network connectivity)
     fetch(apiURL).then(function(response) {
         //request for data was successful 
@@ -39,6 +41,7 @@ var getcityRepos = function(name) {
             response.json().then(function(data) {
                 displayRepos(data,name); //when the response data is converted to JSON, it will be sent from getcityRepos to displayRepos 
                 getCityIndex(data); 
+                forecast(data); 
             });
         } else { //ok = false (not in the 200s)
             alert("Error: " + response.statusText); //statusText property - what the issue is 
@@ -54,7 +57,7 @@ var getcityRepos = function(name) {
 var getCityIndex = function(weather,lat,lon) {
     var lat = weather.coord.lat; 
     var lon = weather.coord.lon; 
-    var apiURL = "http://api.openweathermap.org/data/2.5/uvi?lat=" + lat + "&lon=" + lon + "&appid=d766966c411b7f57a270ea89ff2f7bdc";
+    var apiURL = "http://api.openweathermap.org/data/2.5/uvi?lat=" + lat + "&lon=" + lon + "&appid=" + APIKey;
     fetch(apiURL).then(function(response) {
         if (response.ok) {
             response.json().then(function(data) {
@@ -152,6 +155,35 @@ var displayRepos = function(weather, searchTerm) {
         //append container to the dom 6.2.5
         repoContainerEl.appendChild(repoEl); //append repo to dom 6.2.5 - add div to container 
 }; 
+
+var forecast = function(weather, name) {
+    var dayover = false; 
+    var forecastURL = "https://api.openweathermap.org/data/2.5/forecast?q=" + name + "&appid=" + APIKey; 
+    fetch(forecastURL).then(function(response) {
+        //request for data was successful 
+        if (response.ok) { //"ok" - when the HTTP request status code is something in the 200s - ok = true 404 error - 6.2.6
+            response.json().then(function(data) {
+                for (i=0;i<5;i++) {
+                    var date = new Date((response.list[((i+1)*8)-1].dt)*1000).toLocaleDateString(); 
+                    var iconcode = reponse.list[((i+1)*8)-1].weather[0].icon; 
+                    var iconURL = "https://openweathermap.org/img/wn/"+iconcode+".png";
+                    var temp = response.weather.main.temp;
+                    var humidity = reponse.weather.main.humidity;
+                    var forecastDiv = document.createElement("div"); 
+                    forecastDiv.classList = "weather-div"; 
+                    var forecastEl = document.createElement("span");    
+                    forecastEl.classList = "weather-info";
+                    forecastEl.innerHTML = date + iconURL + temp + humidity; 
+                    forecastDiv.appendChild(forecastEl)
+                    repoContainerEl.appendChild(forecastDiv);
+                }
+            });
+        } else { //ok = false (not in the 200s)
+            alert("Error: " + response.statusText); //statusText property - what the issue is 
+        }
+    })
+}
+
 //add event listener - when submit button is clicked, formSubmitHandler function will execute 6.2.4
 cityFormEl.addEventListener("submit", formSubmitHandler);
 
