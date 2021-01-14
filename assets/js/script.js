@@ -11,14 +11,14 @@ var repoContainerEl = document.querySelector("#repos-container");
 var repoSearchTerm = document.querySelector("#repo-search-term");
 var repoEl = document.createElement("div"); //create a new div element called repoEl 6.2.5
 repoEl.classList = "weather-container";
-
+    //get value of the form input element and send to getcityRepos() 6.2.4 - get city value and send to above function 
+var cityname = nameInputEl.value.trim(); 
+var city = ""; 
 
 //function that executes upon a form submission browser event 6.2.4
 var formSubmitHandler = function(event) {
     event.preventDefault(); 
-    //get value of the form input element and send to getcityRepos() 6.2.4 - get city value and send to above function 
-    var cityname = nameInputEl.value.trim(); //get value from the <input> element, ie. nameInputEl, value is stored in "cityname" variable - use trim to get rid of any leading or trailing white spaces 
-
+    var cityname = nameInputEl.value.trim(); 
     if(cityname) { //checks value - if the cityname matches: 6.2.4 - if the city matches 
         getcityRepos(cityname); // run function with the selected cityname 6.2.4 - run function with city name ie. getcityRepos(ottawa)
         repoContainerEl.textContent=""; 
@@ -39,6 +39,14 @@ var getcityRepos = function(name) {
         //request for data was successful 
         if (response.ok) { //"ok" - when the HTTP request status code is something in the 200s - ok = true 404 error - 6.2.6
             response.json().then(function(data) {
+                sCity = JSON.parse(localStorage.getItem("cityname"));
+                console.log(sCity);
+                if (sCity === null) {
+                    sCity=[];
+                    sCity.push(city); 
+                    localStorage.setItem(cityname, JSON.stringify(sCity)); 
+                    addToList(city);
+                }
                 displayRepos(data,name); //when the response data is converted to JSON, it will be sent from getcityRepos to displayRepos 
                 getCityIndex(data); 
                 forecast(data); 
@@ -158,7 +166,7 @@ var displayRepos = function(weather, searchTerm) {
 
 var forecast = function(city) {
     //get 5 day forecast
-    var forecastURL = "https://api.openweathermap.org/data/2.5/forecast?q=" + city.name + "&appid=" + APIKey; 
+    var forecastURL = "https://api.openweathermap.org/data/2.5/forecast?q=" + city.name + "&units=metric&appid=" + APIKey; 
     fetch(forecastURL).then(function(response){
         if (response.ok) {
             response.json().then(function(response) {
@@ -183,7 +191,7 @@ var forecast = function(city) {
                         var bodyDiv = $("<div>").attr("class", "card-body");
                         newCard.append(bodyDiv);
 
-                        bodyDiv.append($("<p>").attr("class", "card-text").html("Temp: " + response.list[i].main.temp + " &#8457;"));
+                        bodyDiv.append($("<p>").attr("class", "card-text").html("Temp: " + response.list[i].main.temp + " &deg C;"));
                         bodyDiv.append($("<p>").attr("class", "card-text").text("Humidity: " + response.list[i].main.humidity + "%"));                
                     }
                 }
@@ -191,5 +199,49 @@ var forecast = function(city) {
         }
     })
 };  
+
+//add city to search history 
+function addToList(c) {
+    var listEl = $("<li>"); 
+    listEl.classList = "list-group-item";; 
+    $(".list-group").append(listEl); 
+} 
+//display the past search again when the list group item is clicked 
+function invokePastSearch(event) {
+    var liEl=event.target; 
+    if (event.target.matches("li")) {
+        city=liEl.textContent.trim(); 
+        displayRepos(data); //when the response data is converted to JSON, it will be sent from getcityRepos to displayRepos 
+        getCityIndex(data); 
+        forecast(data); 
+    }
+}
+
+function loadlastCity() {
+    $("ul").empty(); 
+    var sCity = JSON.parse(localStorage.getItem(cityname)); 
+    if (sCity !== null) {
+        sCity = JSON.parse(localStorage.getItem(cityname)); 
+        for (i=0; i <sCity.length; i++) {
+            addToList(sCity[i]); 
+        }
+        city = sCity[i-1];
+        displayRepos(data); //when the response data is converted to JSON, it will be sent from getcityRepos to displayRepos 
+        getCityIndex(data); 
+        forecast(data); 
+    }
+}
+
+function clearHistory (event) {
+    event.preventDefault(); 
+    sCity=[]; 
+    localStorage.removeItem(cityname);
+    document.location.reload(); 
+}
+
+
 //add event listener - when submit button is clicked, formSubmitHandler function will execute 6.2.4
 cityFormEl.addEventListener("submit", formSubmitHandler);
+$(document).on("click", invokePastSearch);
+$(window).on("load", loadlastCity);
+$("#clear-history").on("click", clearHistory); 

@@ -10,7 +10,7 @@
   <!-- font awesome icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css">
   <!-- bootstrap -->
-  <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"> -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"> 
   <link rel="stylesheet" href="./assets/css/style.css" />
   <title>Devin's Weather Dashboard</title>
 
@@ -22,26 +22,27 @@
   </header>
 
 
-  <main class="flex-row justify-space-between">
+  <main class="container">
     <!-- responsive layout for the content to be placed in to -->
-    <div class="col-12 col-md-4">
-      <div class="card">
-        <h3 class="card-header">Search for a City:</h3>
-        <form id="city-form" class="card-body">
-          <input name="cityname" id="cityname" type="text" autofocus="true" class="form-input" />
-          <button type="submit" class="btn">Search...</button> <!--style with icon -->
-        </form>
+    <div class="row">
+      <div class="col-6 col-md-4">
+        <div class="card">
+          <h3 class="card-header">Search for a City:</h3>
+          <form id="city-form" class="card-body">
+            <input name="cityname" id="cityname" type="text" autofocus="true" class="form-input" />
+            <button type="submit" class="btn">Search...</button> <!--style with icon -->
+          </form>
+        </div>
+      </div>
+      <div class="col-6 col-md-8">
+        <h2 class="subtitle"><span id="repo-search-term"><!-- container for user name --></span></h2>
+        <div id="repos-container" class="list-group"></div>
       </div>
     </div>
-    <!--updated 6.2.5 
-      <span> element to write the search term to 
-      empty <div> element to write all of the repository data to -->
-    <div class="col-12 col-md-8">
-      <h2 class="subtitle"><span id="repo-search-term"><!-- container for user name --></span></h2>
-      <div id="repos-container" class="list-group"></div>
-    </div>
-    <div class="col-12 col-md-4">
-      <div id="weather-container"></div>
+    <div class="row">
+      <div class= "col-3 col-md-6 col-sm-12">
+        <div id="weather-container"></div> 
+      </div>  
     </div>  
   </main>
 <!--jquery -->
