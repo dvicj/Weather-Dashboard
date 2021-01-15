@@ -17,36 +17,79 @@
 </head>
 
 <body>
-  <header class="hero">
+  <nav class="navbar">
     <h1 class="app-title">Weather Dashboard</h1>
-  </header>
+  </nav>
 
 
   <main class="container">
     <!-- responsive layout for the content to be placed in to -->
     <div class="row">
-      <div class="col-6 col-md-4">
+      <div class="col-4">
         <div class="card">
           <h3 class="card-header">Search for a City:</h3>
           <form id="city-form" class="card-body">
             <input name="cityname" id="cityname" type="text" autofocus="true" class="form-input" />
-            <button type="submit" class="btn">Search...</button> <!--style with icon -->
+            <button type="submit" class="btn" id="search-button">Search...</button> <!--style with icon -->
           </form>
         </div>
-        <button class="btn btn-primary mb-3" type="button" id="clear-history">Clear history</button>
+        <button class="btn" type="button" id="clear-history">Clear history</button>
         <form id="history"></form>
       </div>
-      <div class="col-6 col-md-8">
-        <h2 class="subtitle"><span id="repo-search-term"><!-- container for user name --></span></h2>
-        <div id="repos-container" class="list-group"></div>
+      <div class="col-8" id="repos-container">
+        <div class="row">
+          <div class="col-12">
+            <div class="row">
+              <div class="col-12">
+                <h2 class="subtitle"><span id="repo-search-term"><!-- holds city name --></span></h2>
+              </div>
+              <div class="row">
+                <div class="col-12">
+                  <p id="temperature"></p>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-12">
+                  <p id="feels-like"></p>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-12">
+                  <p id="humidity"></p>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-12">
+                  <p id="wind-speed"></p>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-12">
+                  <p id="uv-index"></p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-12">
+              <h3>5 Day Forecast</h3>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col forecast"></div>
+            <div class="col forecast"></div>
+            <div class="col forecast"></div>
+            <div class="col forecast"></div>
+            <div class="col forecast"></div>
+          </div>
+        </div>
       </div>
     </div>
+
+    <!--REMOVE?-->
     <div class="row">
       <div class= "col-3 col-md-6 col-sm-12">
         <div id="weather-container"></div> 
-      </div> 
-      <div class= "col-6 col-md-4">
-        <span id="history"></span>
       </div> 
     </div>  
   </main>

@@ -98,7 +98,7 @@
     box-shadow: 2px 2px var(--dark);
   }
   
-  .hero {
+  .navbar {
     background-color: var(--dark);
     color: var(--primary);
     display: flex; 
