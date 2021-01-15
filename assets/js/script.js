@@ -36,30 +36,6 @@ var formSubmitHandler = function(event) {
     console.log(event);
 };
 
-clearEl.addEventListener("click", function() {
-    searchHistory = []; 
-    renderSearchHistory(); 
-})
-
-function renderSearchHistory() {
-    historyEl.innerHTML = ""; 
-    for (let i=0; i<searchHistory.length; i++){
-        var historyItem = document.createElement("input");
-        historyItem.setAttribute("type","text");
-        historyItem.setAttribute("readonly", true);
-        historyItem.setAttribute("class", "form-control d-block bg-white");
-        historyItem.setAttribute("value", searchHistory[i]);
-        historyItem.addEventListener("click", function() {
-            getcityRepos(historyItem.value); 
-        })
-        historyEl.append(historyItem);
-    }
-}
-
-renderSearchHistory();
-if (searchHistory.length > 0) {
-    getcityRepos(searchHistory[searchHistory.length -1]);
-}
 
 //this function "fetches" the info (HTTP request) from OpenWeather API
 //OpenWeather replies with JSON data -- use this for weather server API
@@ -84,6 +60,31 @@ var getcityRepos = function(name) {
         alert("Unable to connect to OpenWeather"); 
     }); 
 };
+
+clearEl.addEventListener("click", function() {
+    searchHistory = []; 
+    renderSearchHistory(); 
+})
+
+function renderSearchHistory() {
+    historyEl.innerHTML = ""; 
+    for (let i=0; i<searchHistory.length; i++){
+        var historyItem = document.createElement("input");
+        historyItem.setAttribute("type","text");
+        historyItem.setAttribute("readonly", true);
+        historyItem.setAttribute("class", "form-control d-block bg-white");
+        historyItem.setAttribute("value", searchHistory[i]);
+        historyItem.addEventListener("click", function() {
+            getcityRepos(historyItem.value); 
+        })
+        historyEl.append(historyItem);
+    }
+}
+
+renderSearchHistory();
+if (searchHistory.length > 0) {
+    getcityRepos(searchHistory[searchHistory.length -1]);
+}
 
 //uv index 
 var getCityIndex = function(weather,lat,lon) {
