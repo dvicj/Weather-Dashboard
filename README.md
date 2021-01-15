@@ -15,3 +15,17 @@ WHEN I view future weather conditions for that city
 THEN I am presented with a 5-day forecast that displays the date, an icon representation of weather conditions, the temperature, and the humidity
 WHEN I click on a city in the search history
 THEN I am again presented with current and future conditions for that city
+
+
+ISSUES: 
+
+Whenever I clicked on the stored cities, it would add the info to the main page underneath the old city info instead of changing this. I tried to clear the content of the main page by doing "repoEl = "";", but that only cleared the content when I pressed the "search" button. I finally realized that the way I was setting up all of the weather divs each time a city was searched for, instead of filling in the hardcoded HTML. ie: 
+
+
+var currentTempDiv = document.createElement("div");
+            currentTempDiv.classList = "weather-div";
+            var currentTempEl = document.createElement("span"); 
+            currentTempEl.classList = "weather-info";
+            currentTempEl.innerHTML = "<i class='fas fa-thermometer-empty'></i> " + currentTemp; 
+            currentTempDiv.appendChild(currentTempEl); 
+            repoEl.appendChild(currentTempDiv); 
