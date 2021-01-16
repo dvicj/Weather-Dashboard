@@ -4,6 +4,7 @@ var APIKey = "d766966c411b7f57a270ea89ff2f7bdc";
 var cityFormEl = document.querySelector("#city-form");
 var nameInputEl = document.querySelector("#cityname"); 
 var mainContainerEl = document.querySelector("#main-container");
+var forecastContainerEl = document.querySelector('#forecast-container')
 var citySearchTerm = document.querySelector("#city-search-term");
 var cityEl = document.createElement("div"); 
 cityEl.classList = "weather-container";
@@ -104,8 +105,8 @@ var displayCities = function(weather, searchTerm) {
             windEl.innerHTML = "<i class='fas fa-wind'></i> " + wind; 
             cityEl.appendChild(windEl);
         
-        //append container to the dom 6.2.5
-        mainContainerEl.appendChild(cityEl); //append repo to dom 6.2.5 - add div to container 
+        //append container to the dom 
+        mainContainerEl.appendChild(cityEl); 
 }; 
 
 var forecast = function(city) {
@@ -132,7 +133,11 @@ var forecast = function(city) {
                     forecastEls[i].append(forecastTempEl);
                     var forecastHumidityEl = document.createElement("p"); //create p element to hold the humidity 
                     forecastHumidityEl.innerHTML = "Humidity: " + response.list[forecastIndex].main.humidity + "%";
-                    forecastEls[i].append(forecastHumidityEl); // add each forecast at each array to the page           
+                    forecastEls[i].append(forecastHumidityEl); 
+                    
+                    // add each forecast at each array to the page    
+                    forecastContainerEl.appendChild(forecastEls[i]);  
+                    mainContainerEl.appendChild(forecastContainerEl);      
                 }
             })
         }
@@ -162,7 +167,7 @@ function renderSearchHistory() {
         const historyItem = document.createElement("input");
         historyItem.setAttribute("type","text");
         historyItem.setAttribute("readonly", true);
-        historyItem.setAttribute("class", "form-control d-block bg-white");
+        historyItem.setAttribute("class", "search-history-term");
         historyItem.setAttribute("value", searchHistory[i]);
         historyItem.addEventListener("click", function() {
             getCityWeather(historyItem.value); //when the history is clicked, run the main fuction with the item clicked as the parameter
