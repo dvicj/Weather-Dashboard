@@ -46,15 +46,15 @@ uvEl.classList = "weather-info";
 
 //this function "fetches" the info (HTTP request) from OpenWeather API
 //OpenWeather replies with JSON data -- use this for weather server API
-var getcityRepos = function(name) {
+var getcityRepos = function(cityName) {
     //format the github api url - can enter any cityname in "city"
-    var apiURL = "https://api.openweathermap.org/data/2.5/weather?q=" + name + "&units=metric&appid=" + APIKey; 
+    var apiURL = "https://api.openweathermap.org/data/2.5/weather?q=" + cityName + "&units=metric&appid=" + APIKey; 
     //make a request to the URL - 6.2.5 edited - 6.2.6 edited (404 ERROR and network connectivity)
     fetch(apiURL).then(function(response) {
         //request for data was successful 
         if (response.ok) { //"ok" - when the HTTP request status code is something in the 200s - ok = true 404 error - 6.2.6
             response.json().then(function(data) {
-                displayRepos(data,name); //when the response data is converted to JSON, it will be sent from getcityRepos to displayRepos 
+                displayRepos(data,cityName); //when the response data is converted to JSON, it will be sent from getcityRepos to displayRepos 
                 getCityIndex(data); 
                 forecast(data); 
             });
@@ -167,28 +167,24 @@ var forecast = function(city) {
     })
 };  
 
+searchEl.addEventListener("click",function() {
+    var searchTerm = nameInputEl.value;
+    getcityRepos(searchTerm); 
+    searchHistory.push(searchTerm);
+    localStorage.setItem("search",JSON.stringify(searchHistory));
+    renderSearchHistory(); 
+})
 
 clearEl.addEventListener("click", function() {
     searchHistory = []; 
     renderSearchHistory(); 
     localStorage.removeItem("search", searchHistory);
-    repoEl.value = ""; 
-})
-
-searchEl.addEventListener("click",function() {
-    var searchTerm = nameInputEl.value.trim();
-    getcityRepos(searchTerm); 
-    searchHistory.push(searchTerm);
-    localStorage.setItem("search",JSON.stringify(searchHistory));
-    renderSearchHistory(); 
-    nameInputEl.value = "";
-    repoEl.value = ""; 
 })
 
 function renderSearchHistory() {
     historyEl.innerHTML = ""; 
     for (let i=0; i<searchHistory.length; i++){
-        var historyItem = document.createElement("input");
+        const historyItem = document.createElement("input");
         historyItem.setAttribute("type","text");
         historyItem.setAttribute("readonly", true);
         historyItem.setAttribute("class", "form-control d-block bg-white");
@@ -197,6 +193,7 @@ function renderSearchHistory() {
             getcityRepos(historyItem.value); 
         })
         historyEl.append(historyItem);
+        console.log(historyItem.value);
     }
 }
 
