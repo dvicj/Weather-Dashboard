@@ -4,7 +4,7 @@
     --tertiary: #173f5f;
     --light-dark: #f6d55c;
     --dark: #ed553b;
-    --border-radius: .3rem;
+    --border-radius: 3px; 
   }
   
   * {
@@ -35,7 +35,7 @@
     font-size: 35px; 
   }
 
-  #repo-search-term {
+  #city-search-term {
     font-size: 45px; 
   }
   
