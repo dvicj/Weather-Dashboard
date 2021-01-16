@@ -55,19 +55,20 @@ Below are examples of the links for the CSS style sheet and the images used in t
 ![image relative path](https://github.com/dvicj/Horiseon-Accessibility/blob/main/image%20relative%20path.PNG)
 
 ## Usage
-![website demo]()
+
+![website demo](https://github.com/dvicj/Weather-Dashboard/blob/main/assets/images/websitedemo.gif)
 
 Here are some user experience highlights from my page: 
 
     - when the user searches for a city, they are shown data for that city. 
-            - the current date 
-             - an icon showing current weather conditions
-            - temperature, feels like, humidity, wind  speed and UV index. 
-            - a 5 day forecast showing the date, an icon, temperature, and humidity
+        - the current date 
+        - an icon showing current weather conditions
+        - temperature, feels like, humidity, wind  speed and UV index. 
+        - a 5 day forecast showing the date, an icon, temperature, and humidity
 
     - the cities the user searches for are saved to local storage and appear on the page. When the user refreshes the page the saved cities persist.
      
-    - when the user clicks on one of the saved cities, the data for that city is loaded onto the page. 
+    - when the user clicks on one of the saved cities, the data for that city is re-loaded onto the page. 
 
     - the user can clear the search history if it becomes to crowded by clicking the "Clear History" button. This will also remove the data from local storage. 
 
@@ -92,7 +93,7 @@ These are some sources I used to help me along:
 ## Learning
 Here are the highlights of what I learned and issues I had while writing this code.
 
-1. Whenever I clicked on the saved city history, it would add the info to the main page underneath the old city info instead of updating with new info. I tried to clear the content of the main page by doing "repoEl = "";", but that only cleared the content when I pressed the "search" button. I finally realized that the way I was setting up all of the weather divs each time a city was searched for, instead of filling in the hardcoded HTML by id. 
+1. Whenever I clicked on the saved city history, it would add the info to the main page underneath the old city info instead of updating with new info. I tried to clear the content of the main page by doing "cityEl = "";", but that only cleared the content when I pressed the "search" button. I finally realized that the way I was setting up all of the weather divs each time a city was searched for, instead of filling in the hardcoded HTML by id. 
 
 2. Once I fixed this, I discovered that everytime I clicked on the saved city history, it was bringing back the same data as the current city that was being displayed. I changed the "var" to "const" in my function and it fixed this. I still dont understand why this fixed it, but oh well. 
 
@@ -102,7 +103,7 @@ Here are the highlights of what I learned and issues I had while writing this co
 
 My webpage skeleton:
 
-![webpage skeleton]()
+![webpage skeleton](https://github.com/dvicj/Weather-Dashboard/blob/main/assets/images/websiteplan.JPG)
 
 
 
@@ -110,7 +111,7 @@ My webpage skeleton:
 
 MIT License
 
-Copyright (c) 2020 Devin Jones 
+Copyright (c) 2021 Devin Jones 
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
