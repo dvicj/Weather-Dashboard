@@ -49,7 +49,7 @@ var getCityWeather = function(cityName) {
 var getCityIndex = function(weather,lat,lon) {
     var lat = weather.coord.lat; 
     var lon = weather.coord.lon; 
-    var apiURL = "http://api.openweathermap.org/data/2.5/uvi?lat=" + lat + "&lon=" + lon + "&appid=" + APIKey;
+    var apiURL = "https://api.openweathermap.org/data/2.5/uvi?lat=" + lat + "&lon=" + lon + "&appid=" + APIKey;
     fetch(apiURL).then(function(response) {
         if (response.ok) {
             response.json().then(function(data) {
@@ -80,7 +80,7 @@ var displayCities = function(weather, searchTerm) {
     var currentDate = moment().format("(L)");
     //current weather icon 
     var currentIcon = weather.weather[0].icon; 
-    var iconUrl = "http://openweathermap.org/img/wn/"+currentIcon +"@2x.png";
+    var iconUrl = "https://openweathermap.org/img/wn/"+currentIcon +"@2x.png";
     $(citySearchTerm).html(searchTerm + currentDate + "<img src="+iconUrl+">")//ensures the page displays the cityname/search term/date and icon 
         var currentTemp = "Current temperature: " + weather.main.temp + " &deg C"; 
         var feelsLike = "Feels like: " + weather.main.feels_like + " &deg C"; 
