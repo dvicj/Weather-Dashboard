@@ -54,8 +54,9 @@ var getCityIndex = function(weather,lat,lon) {
         if (response.ok) {
             response.json().then(function(data) {
                 var uvi = data.value; 
-                uvEl.innerHTML = '<span class="badge badge-pill badge-light" id="uvi-badge" <i class="fas fa-sun"></i>' + " UV Index: " + uvi + "</span>";
+                uvEl.innerHTML = '<span class="badge badge-pill badge-light" id="uvi-badge">' + " UV Index: " + uvi + "</span>";
                 cityEl.appendChild(uvEl);
+                mainContainerEl.appendChild(cityEl)
                 if (uvi < 2) { //apply green background colour if less than 2 
                     $("#uvi-badge").css("background-color", "green")
                 } else if (uvi < 5) { //apply yellow background colour if less than 5 
@@ -70,15 +71,11 @@ var getCityIndex = function(weather,lat,lon) {
             alert("Error: " + response.statusText);
         }
     })
-    .catch(function(error) { //6.2.6 - catch is way of handling nextwork errors - if successful will get returned in the .then() method if request fails it will be sent to .catch() method 
-        alert("Unable to connect to OpenWeather"); 
-    }); 
 };
 
 //will accept both the array of the city data(weather) and the term we searched(searchTerm) for as parameters
 var displayCities = function(weather, searchTerm) {
     console.log (weather); 
-    //clear old city inputted content before displaying new content
     //show current date 
     var currentDate = moment().format("(L)");
     //current weather icon 
@@ -106,7 +103,7 @@ var displayCities = function(weather, searchTerm) {
             cityEl.appendChild(windEl);
         
         //append container to the dom 
-        mainContainerEl.appendChild(cityEl); 
+        mainContainerEl.append(cityEl); 
 }; 
 
 var forecast = function(city) {
@@ -137,7 +134,7 @@ var forecast = function(city) {
                     
                     // add each forecast at each array to the page    
                     forecastContainerEl.appendChild(forecastEls[i]);  
-                    mainContainerEl.appendChild(forecastContainerEl);      
+                    mainContainerEl.append(forecastContainerEl);      
                 }
             })
         }
